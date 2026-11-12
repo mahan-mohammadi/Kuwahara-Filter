@@ -2,6 +2,11 @@
 
 A fast, zero-dependency C implementation of the **Classic Circular Gaussian Kuwahara** and **Anisotropic Kuwahara** non-photorealistic rendering (NPR) filters. It reads and writes binary `P6` PPM images using a single-pass in-memory I/O pipeline and scales across CPU cores with OpenMP.
 
+
+| Original | Filtered |
+|:---:|:---:|
+| ![Original](pexels-fernando-silva-2157007356-35587125.jpg) | ![Filtered](output.png) |
+
 ## Features
 
 - **Zero External Image Libraries:** Custom, spec-compliant `P6` PPM parser that loads the file in a single `fread` call, handles arbitrary header comments, and guards against integer overflows and pixel-alignment shifts.
