@@ -41,9 +41,79 @@ A fast, zero-dependency C implementation of the **Classic Circular Gaussian Kuwa
 
 ---
 
-## Compilation
 
-Compile with optimization flags and native architecture tuning enabled:
+## Usage
+
+### 1. Compile
+
+Build the project using GCC with OpenMP support:
 
 ```bash
-gcc -O3 -march=native -fopenmp kuwahara.c -o kuwahara -lm
+gcc -O3 -march=native -fopenmp kuwa4.c -o kuwahara -lm
+```
+
+### 2. Prepare your image
+
+The program accepts binary PPM images (`P6` format).
+
+If your image is in PNG or JPEG format, convert it using ImageMagick:
+
+```bash
+magick input.jpg input.ppm
+```
+
+### 3. Run the filter
+
+Basic usage:
+
+```bash
+./kuwahara input.ppm output.ppm
+```
+
+This runs the Anisotropic Kuwahara filter with the default radius and maximum available OpenMP threads.
+
+### 4. Configure the filter
+
+You can optionally customize the radius, number of threads, and filter mode:
+
+```bash
+./kuwahara input.ppm output.ppm [radius] [threads] [mode]
+```
+
+**Examples:**
+
+Run the Classic Kuwahara filter:
+
+```bash
+./kuwahara input.ppm output.ppm 4 8 classic
+```
+
+Run the Anisotropic Kuwahara filter:
+
+```bash
+./kuwahara input.ppm output.ppm 6 8 anisotropic
+```
+
+Use the default anisotropic mode with a larger radius:
+
+```bash
+./kuwahara input.ppm output.ppm 8
+```
+
+### 5. Convert the result
+
+The output is saved as a PPM image. You can convert it back to PNG:
+
+```bash
+magick output.ppm output.png
+```
+
+### Command-line options
+
+| Parameter | Description | Default |
+|---|---|---|
+| `radius` | Controls the neighborhood size of the filter | `4` |
+| `threads` | Number of CPU threads used by OpenMP | Maximum available |
+| `mode` | Filter algorithm: `classic` or `anisotropic` | `anisotropic` |
+
+**Note:** Arguments must be provided in order. To specify the mode, you must also provide the radius and thread count.
